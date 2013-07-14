@@ -52,6 +52,9 @@
       this.language = options.language in dates ? options.language : 'en'
       this.pickDate = options.pickDate;
       this.pickTime = options.pickTime;
+      this.defaultHours = options.defaultHours;
+      this.defaultMinutes = options.defaultMinutes;
+      this.defaultSeconds = options.defaultSeconds;
       this.isInput = this.$element.is('input');
       this.component = false;
       if (this.$element.find('.input-append') || this.$element.find('.input-prepend'))
@@ -323,10 +326,11 @@
           this._date = UTCDate(tmp.getFullYear(),
                               tmp.getMonth(),
                               tmp.getDate(),
-                              tmp.getHours(),
-                              tmp.getMinutes(),
-                              tmp.getSeconds(),
+                              ((this.defaultHours !== undefined) ? this.defaultHours : tmp.getHours()),
+                              ((this.defaultMinutes !== undefined) ? this.defaultMinutes : tmp.getMinutes()),
+                              ((this.defaultSeconds !== undefined) ? this.defaultSeconds : tmp.getSeconds()),
                               tmp.getMilliseconds())
+          console.log("Date", this._date, this.defaultSeconds);
         }
       }
       this.viewDate = UTCDate(this._date.getUTCFullYear(), this._date.getUTCMonth(), 1, 0, 0, 0, 0);
@@ -643,7 +647,7 @@
       },
 
       incrementMinutes: function(e) {
-        this._date.setUTCMinutes(this._date.getUTCMinutes() + 1);
+        this._date.setUTCMinutes(this._date.getUTCMinutes() + 15);
       },
 
       incrementSeconds: function(e) {
@@ -655,7 +659,7 @@
       },
 
       decrementMinutes: function(e) {
-        this._date.setUTCMinutes(this._date.getUTCMinutes() - 1);
+        this._date.setUTCMinutes(this._date.getUTCMinutes() - 15);
       },
 
       decrementSeconds: function(e) {
